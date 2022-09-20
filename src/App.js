@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import PhotoAlbum from "react-photo-album";
 import photos from "./image-list.json";
 import Lightbox from "yet-another-react-lightbox";
@@ -21,6 +21,9 @@ function App() {
   const [index, setIndex] = useState(-1);
   return (
     <div className="App">
+      <div>
+        <h1>Remembering Deb Ritterbush</h1>
+      </div>
       <PhotoAlbum
         columns={(containerWidth) => {
           if (containerWidth < 400) return 1;
@@ -28,8 +31,11 @@ function App() {
         layout="masonry"
         photos={photos}
         targetRowHeight={150}
+        padding={10}
         onClick={(event, photo, index) => setIndex(index)}
-        componentsProps={{ imageProps: { loading: "lazy" } }}
+        componentsProps={{
+          imageProps: { loading: "lazy", className: "photo" },
+        }}
       />
       <Lightbox
         slides={slides}
