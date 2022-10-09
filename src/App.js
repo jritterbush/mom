@@ -5,6 +5,7 @@ import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 
 import photos from "./image-list.json";
+import { Container } from "@mui/material";
 
 const slides = photos.map(({ full, width, height, images }) => {
   return {
@@ -20,9 +21,9 @@ function App() {
     <div className="App">
       <main id="content">
         <Hero />
-        <section style={{ padding: "20px" }}>
+        <Container sx={{ padding: "20px" }}>
           <PhotoGrid photos={photos} selectPhoto={setIndex} />
-        </section>
+        </Container>
       </main>
       <Lightbox
         slides={slides}

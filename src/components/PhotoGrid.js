@@ -15,7 +15,7 @@ const PhotoButton = styled.button`
 
 const PhotoGrid = ({ photos, selectPhoto }) => {
   return (
-    <Masonry columns={{ xs: 2, sm: 3, md: 4}} spacing={2}>
+    <Masonry columns={{ xs: 1, sm: 2, md: 4}} spacing={2}>
       {photos.map((photo, index) => (
         <PhotoButton
           key={photo.filename}
