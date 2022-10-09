@@ -3,9 +3,11 @@ import styled from "@emotion/styled";
 import { Container } from "@mui/system";
 
 const HeroStyled = styled.header`
-  background-color: #7b96bb;
   min-height: 96vh;
-  background: url("https://jvr.nyc3.cdn.digitaloceanspaces.com/images/mom/clouds.jpg");
+  background-image: url("https://jvr.nyc3.cdn.digitaloceanspaces.com/images/mom/clouds.jpg");
+  background-color: #a7aac3;
+  background-size: cover;
+  background-position: center;
   .Hero-Text {
     background-color: rgba(255, 255, 255, 0.7);
     padding: 20px;
