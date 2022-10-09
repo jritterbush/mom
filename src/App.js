@@ -18,8 +18,12 @@ function App() {
   const [index, setIndex] = useState(-1);
   return (
     <div className="App">
-      <Hero />
-      <PhotoGrid photos={photos} selectPhoto={setIndex} />
+      <main id="content">
+        <Hero />
+        <section style={{ padding: "20px" }}>
+          <PhotoGrid photos={photos} selectPhoto={setIndex} />
+        </section>
+      </main>
       <Lightbox
         slides={slides}
         open={index >= 0}
