@@ -1,4 +1,4 @@
-import {IMG_CDN_ROOT} from "../constants/images";
+import { IMG_CDN_ROOT } from "../constants/images";
 
 const PhotoThumb = ({ photo }) => {
   return (

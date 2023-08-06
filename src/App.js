@@ -7,7 +7,7 @@ import "yet-another-react-lightbox/styles.css";
 import photos from "./image-list.json";
 import { Container } from "@mui/material";
 import Footer from "./components/Footer";
-import {IMG_CDN_ROOT} from "./constants/images";
+import { IMG_CDN_ROOT } from "./constants/images";
 
 const slides = photos.map(({ filename, width, height }) => {
   return {
@@ -23,10 +23,14 @@ function App() {
     <div className="App">
       <main id="content">
         <Hero />
-        <Container sx={{ padding: "20px", backgroundImage: "linear-gradient(180deg, #a7aac3 1%, #ffc0cb 99%)" }}>
+        <Container
+          sx={{
+            padding: "20px",
+          }}
+        >
           <PhotoGrid photos={photos} selectPhoto={setIndex} />
         </Container>
-		<Footer />
+        <Footer />
       </main>
       <Lightbox
         slides={slides}

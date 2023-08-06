@@ -1,10 +1,11 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import styled from "@emotion/styled";
 import { Container } from "@mui/system";
+import { IMG_CDN_ROOT } from "../constants/images";
 
 const HeroStyled = styled.header`
   min-height: 96vh;
-  background-image: url("https://jvr.nyc3.cdn.digitaloceanspaces.com/images/mom/clouds.jpg");
+  background-image: url("${IMG_CDN_ROOT}/clouds.jpg");
   background-color: #a7aac3;
   background-size: cover;
   background-position: center;
@@ -31,7 +32,7 @@ const Hero = () => (
           <img
             alt="Black and white photograph of Deb Ritterbush"
             className="Hero-Image"
-            src="https://jvr.nyc3.cdn.digitaloceanspaces.com/images/mom/IMG_20220912_210338.jpg"
+            src={`${IMG_CDN_ROOT}/IMG_20220912_210338.jpg`}
           />
         </Grid>
         <Grid sm={8} order={{ sm: 0 }} className="Hero-Text">
