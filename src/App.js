@@ -7,10 +7,11 @@ import "yet-another-react-lightbox/styles.css";
 import photos from "./image-list.json";
 import { Container } from "@mui/material";
 import Footer from "./components/Footer";
+import {IMG_CDN_ROOT} from "./constants/images";
 
-const slides = photos.map(({ full, width, height, images }) => {
+const slides = photos.map(({ filename, width, height }) => {
   return {
-    src: full,
+    src: `${IMG_CDN_ROOT}/${filename}`,
     width,
     height,
   };
