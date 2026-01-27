@@ -1,44 +1,38 @@
 {
-  "name": "mom",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
-    "@mui/lab": "^5.0.0-alpha.100",
-    "@mui/material": "^5.10.6",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-photo-album": "^1.16.1",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.0",
-    "yet-another-react-lightbox": "^2.1.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "mom",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/jritterbush/mom.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "module",
+	"bugs": {
+		"url": "https://github.com/jritterbush/mom/issues"
+	},
+	"homepage": "https://github.com/jritterbush/mom#readme",
+	"dependencies": {
+		"@astrojs/react": "^4.4.2",
+		"@astrojs/ts-plugin": "^1.10.6",
+		"@mui/lab": "^5.0.0-alpha.100",
+		"@mui/material": "^7.3.7",
+		"astro": "^5.16.15",
+		"typescript": "^5.9.3",
+		"yet-another-react-lightbox": "^3.28.0"
+	},
+	"devDependencies": {
+		"eslint": "^9.39.2",
+		"prettier": "3.8.0",
+		"prettier-plugin-astro": "0.14.1",
+		"wrangler": "^4.59.2"
+	}
 }
