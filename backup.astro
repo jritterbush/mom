@@ -1,0 +1,36 @@
+<style define:vars={{ fullImageUrl, placeholderUrl }}>
+	header {
+		min-height: 86vh;
+		background-color: var(--secondary);
+		background-size: cover;
+		background-position: center;
+		padding-top: calc(16 * var(--spacing));
+		/* Start with the blurry placeholder */
+		background-image: var(--placeholderUrl);
+		position: relative;
+		transition: background-image 0.5s ease-in-out;
+	}
+
+	/* Animate the transition between the two states */
+	header.is-loaded {
+		background-image: var(--fullImageUrl);
+	}
+
+	/* Optional: Add a subtle blur to the placeholder state */
+	header:not(.is-loaded) {
+		filter: blur(4px);
+		transition: filter 0.5s ease-in-out;
+	}
+
+	.card {
+		background-color: rgba(255, 255, 255, 0.7);
+		padding: calc(6 * var(--spacing));
+		display: flex;
+	}
+	.card > img {
+		order: 2;
+		max-width: 350px;
+		width: 100%;
+		height: auto;
+	}
+</style>

@@ -1,7 +1,52 @@
 ---
-import { Container } from '@mui/material';
+import Container from './Container.astro';
+import { site } from '../data/site.ts';
+const { donateLinks } = site;
 ---
 
-<Container sx={{ textAlign: 'center', fontSize: '2.5em' }}>
-	<p>🧸</p>
+<style>
+	footer {
+		padding: calc(12 * var(--spacing)) 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	ul {
+		display: flex;
+		list-style-type: none;
+		margin: 0;
+		gap: calc(4 * var(--spacing));
+	}
+	a {
+		color: var(--font-color);
+		font-size: 1.1rem;
+	}
+	h2 {
+		font-size: 1.2rem;
+	}
+	p {
+		font-size: 50px;
+	}
+</style>
+
+<Container>
+	<footer>
+		{
+			donateLinks.length > 0 && (
+				<div>
+					<h2>Donate to</h2>
+					<ul>
+						{donateLinks.map(({ href, text }) => (
+							<li>
+								<a href={href} target='_blank' rel='noopener noreferrer'>
+									{text}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			)
+		}
+		<p>🧸</p>
+	</footer>
 </Container>

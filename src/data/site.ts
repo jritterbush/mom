@@ -15,6 +15,16 @@ export const site = {
 			handle: '@john.ritterbu.sh',
 		},
 	},
+	donateLinks: [
+		{
+			href: 'https://classy.org/campaign/research-fund-jonah-ritterbush/c130938',
+			text: 'The Jonah Ritterbush Family Fund',
+		},
+		{
+			href: 'https://alz.org',
+			text: 'The Alzheimer’s Association',
+		},
+	],
 } as const;
 
 export type Site = typeof site;

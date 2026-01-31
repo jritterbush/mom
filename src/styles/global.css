@@ -1,10 +1,28 @@
-body {
-	margin: 0;
-	background-color: #ffc0cb;
-	background: linear-gradient(180deg, #a7aac3 1%, #ffc0cb 99%);
-	font-family:
+:root {
+	--primary: #ffc0cb;
+	--secondary: #a7aac3;
+	--spacing: 4px;
+	--base-font-family:
 		-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
 		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	--base-font-size: 1rem; /* Default 16px */
+	--base-line-height: 1.5; /* Unitless value for better scaling */
+	--base-text-color: #333;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: var(--base-font-family);
+	font-size: calc(1.2 * var(--base-font-size));
+	line-height: var(--base-line-height);
+	color: var(--base-text-color);
+	background-color: var(--primary);
+	background: linear-gradient(180deg, var(--secondary) 1%, var(--primary) 99%);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }

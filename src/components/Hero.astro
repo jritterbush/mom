@@ -1,43 +1,60 @@
 ---
-import Grid from '@mui/material/Grid';
-import { Container } from '@mui/system';
-import { IMG_CDN_ROOT } from '../constants/images';
+import { getImage, Image } from 'astro:assets';
+import Container from './Container.astro';
+import { IMG_CDN_URL } from '../constants/images.js';
+
+interface Props {
+	fullBackground: string;
+	lowResBackground?: string;
+}
+
+const { fullBackground, lowResBackground } = Astro.props;
+
+const backgroundUrl = `url(${fullBackground})`;
+const placeholderUrl = lowResBackground ? `url(${lowResBackground})` : '';
 ---
 
-<style>
+<style define:vars={{ backgroundUrl, placeholderUrl }}>
 	header {
-		min-height: 96vh;
-		background-image: url('${IMG_CDN_ROOT}/clouds.jpg');
-		background-color: #a7aac3;
+		min-height: 86vh;
+		background-image: var(--backgroundUrl), var(--placeholderUrl);
+		background-color: var(--secondary);
 		background-size: cover;
 		background-position: center;
+		padding: calc(16 * var(--spacing)) 0;
 	}
-	.Hero-Text {
+	article {
 		background-color: rgba(255, 255, 255, 0.7);
-		padding: 20px;
+		padding: calc(6 * var(--spacing));
+		display: flex;
+		/* align-items: center; */
+		gap: calc(6 * var(--spacing));
+		/* The "Clean" Styling */
+		border-radius: 12px;
+		border: 1px solid #e0e0e0;
+
+		/* Low Box Shadow: x-offset y-offset blur spread color */
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 	}
-	.Hero-Image {
-		width: 100%;
-		height: auto;
-		max-width: 350px;
+	article > img {
+		order: 2;
+		max-height: 400px;
+		width: auto;
+	}
+	article p {
+		padding-top: calc(2 * var(--spacing));
 	}
 </style>
 
-<header>
-	<Container sx={{ padding: '40px 20px' }}>
-		<Grid
-			container
-			spacing={2}
-			sx={{ alignItems: 'center', justifyContent: { xs: 'center' } }}
-		>
-			<Grid order={{ sm: 1 }} sm={4}>
-				<img
-					alt='Black and white photograph of Deb Ritterbush'
-					className='Hero-Image'
-					src={`${IMG_CDN_ROOT}/IMG_20220912_210338.jpg`}
-				/>
-			</Grid>
-			<Grid sm={8} order={{ sm: 0 }} className='Hero-Text'>
+<header id='hero-header'>
+	<Container>
+		<article>
+			<Image
+				alt='Black and white photograph of Deb Ritterbush'
+				src={`${IMG_CDN_URL}IMG_20220912_210338.jpg`}
+				inferSize={true}
+			/>
+			<div>
 				<h1>Remembering Deb Ritterbush</h1>
 				<h2>January 2, 1953 &mdash; September 12, 2022</h2>
 				<p>
@@ -98,7 +115,20 @@ import { IMG_CDN_ROOT } from '../constants/images';
 					Norah Ritterbush; sisters, RoJean Anderson of Fairfield, IA, Deanna
 					Schardt of Hastings, NE.
 				</p>
-			</Grid>
-		</Grid>
+			</div>
+		</article>
 	</Container>
 </header>
+
+<script define:vars={{ fullBackground }}>
+	const header = document.getElementById('hero-header');
+	const img = new Image();
+
+	// Set the source to start the download
+	img.src = fullSrc;
+
+	// When the high-res image is ready...
+	img.onload = () => {
+		header.classList.add('is-loaded');
+	};
+</script>

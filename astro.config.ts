@@ -1,7 +1,10 @@
 import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
+import { IMG_CDN_DOMAIN } from './src/constants/images';
 
 // https://astro.build/config
 export default defineConfig({
-	integrations: [react()],
+	image: {
+		domains: [IMG_CDN_DOMAIN],
+		remotePatterns: [{ protocol: 'https' }],
+	},
 });

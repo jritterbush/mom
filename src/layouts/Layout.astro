@@ -1,11 +1,17 @@
 ---
 import HTMLHead from '../components/HTMLHead.astro';
+import '../styles/global.css';
+
+interface Props {
+	backgroundImage?: string;
+}
+const { backgroundImage } = Astro.props;
 ---
 
 <!doctype html>
 <html lang='en'>
 	<head>
-		<HTMLHead />
+		<HTMLHead backgroundImage={backgroundImage} />
 	</head>
 	<body>
 		<slot />
