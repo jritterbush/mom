@@ -1,6 +1,7 @@
 ---
 import { getImage, Image } from 'astro:assets';
 import Container from './Container.astro';
+import DonateLinks from './DonateLinks.astro';
 import { IMG_CDN_URL } from '../constants/images.js';
 
 interface Props {
@@ -24,22 +25,19 @@ const placeholderUrl = lowResBackground ? `url(${lowResBackground})` : '';
 		padding: calc(16 * var(--spacing)) 0;
 	}
 	article {
-		background-color: rgba(255, 255, 255, 0.7);
+		background-color: rgba(255, 255, 255, 0.75);
 		padding: calc(6 * var(--spacing));
-		display: flex;
-		/* align-items: center; */
-		gap: calc(6 * var(--spacing));
-		/* The "Clean" Styling */
 		border-radius: 12px;
 		border: 1px solid #e0e0e0;
-
-		/* Low Box Shadow: x-offset y-offset blur spread color */
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 	}
-	article > img {
-		order: 2;
+	article img {
+		float: right;
+		margin: 0 0 calc(6 * var(--spacing)) calc(6 * var(--spacing));
 		max-height: 400px;
 		width: auto;
+		border-radius: 12px;
+		border: 1px solid black;
 	}
 	article p {
 		padding-top: calc(2 * var(--spacing));
@@ -49,12 +47,12 @@ const placeholderUrl = lowResBackground ? `url(${lowResBackground})` : '';
 <header id='hero-header'>
 	<Container>
 		<article>
-			<Image
-				alt='Black and white photograph of Deb Ritterbush'
-				src={`${IMG_CDN_URL}IMG_20220912_210338.jpg`}
-				inferSize={true}
-			/>
 			<div>
+				<Image
+					alt='Black and white photograph of Deb Ritterbush'
+					src={`${IMG_CDN_URL}IMG_20220912_210338.jpg`}
+					inferSize={true}
+				/>
 				<h1>Remembering Deb Ritterbush</h1>
 				<h2>January 2, 1953 &mdash; September 12, 2022</h2>
 				<p>
@@ -64,19 +62,7 @@ const placeholderUrl = lowResBackground ? `url(${lowResBackground})` : '';
 				</p>
 				<p>She was surrounded by family at the time of her death.</p>
 				<p>
-					Memorials may be given to the{' '}
-					<a
-						href='https://classy.org/campaign/research-fund-jonah-ritterbush/c130938'
-						target='_blank'
-						rel='noopener noreferrer'
-					>
-						Jonah Ritterbush Family Fund
-					</a>{' '}
-					or the{' '}
-					<a href='https://alz.org' target='_blank' rel='noopener noreferrer'>
-						Alzheimer’s Association
-					</a>
-					.{' '}
+					Memorials may be given to <DonateLinks />.
 				</p>
 				<p>
 					Deb was born January 2, 1953, in Kearney, NE, to John and Dorothy

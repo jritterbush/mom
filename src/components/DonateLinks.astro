@@ -1,0 +1,39 @@
+---
+import { site } from '../data/site.ts';
+const { donateLinks } = site;
+
+interface Props {
+	format: 'string' | 'list';
+}
+
+const { format = 'string' } = Astro.props;
+---
+
+<style>
+	a {
+		font-weight: 600;
+	}
+</style>
+
+<>
+	{
+		donateLinks.map(({ href, text }, index) => {
+			const onlyTwoItems = donateLinks.length === 2;
+			const separator = onlyTwoItems ? ' or ' : ', ';
+			return format === 'list' ? (
+				<li>
+					<a href={href} target='_blank' rel='noopener noreferrer'>
+						{text}
+					</a>
+				</li>
+			) : (
+				<span>
+					<a href={href} target='_blank' rel='noopener noreferrer'>
+						{text}
+					</a>
+					{index + 1 !== donateLinks.length ? separator : ''}
+				</span>
+			);
+		})
+	}
+</>

@@ -20,6 +20,7 @@ const { donateLinks } = site;
 	a {
 		color: var(--font-color);
 		font-size: 1.1rem;
+		font-weight: 800;
 	}
 	h2 {
 		font-size: 1.2rem;
@@ -31,6 +32,7 @@ const { donateLinks } = site;
 
 <Container>
 	<footer>
+		{/* update the following to use <DonateLinks format='list' /> */}
 		{
 			donateLinks.length > 0 && (
 				<div>
