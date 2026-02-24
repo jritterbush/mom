@@ -1,8 +1,12 @@
 ---
-import PhotoThumb from './PhotoThumb.astro';
+import PhotoThumb, { type Photo } from './PhotoThumb.astro';
 import Container from './Container.astro';
 
-const { photos, selectPhoto } = Astro.props;
+interface Props {
+	photos: Photo[];
+}
+
+const { photos } = Astro.props;
 ---
 
 <style>
@@ -37,13 +41,8 @@ const { photos, selectPhoto } = Astro.props;
 	<Container>
 		<ul>
 			{
-				photos.map((photo, index) => (
-					<button
-						key={photo.filename}
-						onClick={() => {
-							selectPhoto(index);
-						}}
-					>
+				photos.map((photo) => (
+					<button data-image={photo.filename}>
 						<PhotoThumb photo={photo} />
 					</button>
 				))
@@ -51,3 +50,15 @@ const { photos, selectPhoto } = Astro.props;
 		</ul>
 	</Container>
 </section>
+
+<script>
+	const imageButtons = document.querySelectorAll('button[data-image]');
+	if (imageButtons) {
+		imageButtons.forEach((imageButton) => {
+			imageButton.addEventListener('click', (event) => {
+				const imageName = event.currentTarget.dataset.image;
+				console.log(imageName);
+			});
+		});
+	}
+</script>

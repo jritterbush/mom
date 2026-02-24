@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro';
 import Hero from '../components/Hero.astro';
 import Layout from '../layouts/Layout.astro';
 import { IMG_CDN_URL } from '../constants/images.js';
-/* import PhotoGrid from '../components/PhotoGrid.astro'; */
+import PhotoGrid from '../components/PhotoGrid.astro';
 
 import photos from '../image-list.json';
 
@@ -28,7 +28,7 @@ const lowResBackgroundImage = await getImage({
 			fullBackground={fullBackgroundImage.src}
 			lowResBackground={lowResBackgroundImage.src}
 		/>
-		{/*<PhotoGrid photos={photos} />*/}
+		<PhotoGrid photos={photos} />
 		<Footer />
 	</main>
 </Layout>

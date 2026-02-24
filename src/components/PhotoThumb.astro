@@ -1,12 +1,27 @@
 ---
-import { IMG_CDN_ROOT } from '../constants/images';
+import { Image } from 'astro:assets';
+
+import { IMG_CDN_URL } from '../constants/images';
+
+export interface Photo {
+	filename: string;
+	width: number;
+	height: number;
+	aspectRatio: number;
+}
+
+interface Props {
+	photo: Photo;
+}
 
 const { photo } = Astro.props;
 ---
 
-<img
+<Image
+	width={photo.width}
+	height={photo.height}
 	style={{ width: '100%', height: 'auto' }}
 	alt=''
-	src={`${IMG_CDN_ROOT}/thumbs/${photo.filename}`}
+	src={`${IMG_CDN_URL}thumbs/${photo.filename}`}
 	loading='lazy'
 />
