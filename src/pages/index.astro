@@ -6,7 +6,7 @@ import Layout from '../layouts/Layout.astro';
 import { IMG_CDN_URL } from '../constants/images.js';
 import PhotoGrid from '../components/PhotoGrid.astro';
 
-import photos from '../image-list.json';
+import photos from '../content/image-list.json';
 
 const fullBackgroundImage = await getImage({
 	src: `${IMG_CDN_URL}clouds.jpg`,

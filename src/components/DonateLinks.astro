@@ -3,7 +3,7 @@ import { site } from '../data/site.ts';
 const { donateLinks } = site;
 
 interface Props {
-	format: 'string' | 'list';
+	format?: 'string' | 'list';
 }
 
 const { format = 'string' } = Astro.props;

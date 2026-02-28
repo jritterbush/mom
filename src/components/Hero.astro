@@ -1,8 +1,12 @@
 ---
-import { getImage, Image } from 'astro:assets';
+import matter from 'gray-matter';
+import { marked } from 'marked';
+import markdownContentRaw from '../content/obituary.md?raw';
+import { Image } from 'astro:assets';
 import Container from './Container.astro';
 import DonateLinks from './DonateLinks.astro';
 import { IMG_CDN_URL } from '../constants/images.js';
+import ReadMoreBlock from './ReadMoreBlock.astro';
 
 interface Props {
 	fullBackground: string;
@@ -13,11 +17,13 @@ const { fullBackground, lowResBackground } = Astro.props;
 
 const backgroundUrl = `url(${fullBackground})`;
 const placeholderUrl = lowResBackground ? `url(${lowResBackground})` : '';
+
+const { data, content } = matter(markdownContentRaw);
+const [summary, expandedContent] = content.split('---');
 ---
 
 <style define:vars={{ backgroundUrl, placeholderUrl }}>
 	header {
-		min-height: 86vh;
 		background-image: var(--backgroundUrl), var(--placeholderUrl);
 		background-color: var(--secondary);
 		background-size: cover;
@@ -26,95 +32,70 @@ const placeholderUrl = lowResBackground ? `url(${lowResBackground})` : '';
 	}
 	article {
 		background-color: rgba(255, 255, 255, 0.75);
-		padding: calc(6 * var(--spacing));
+		padding: calc(6 * var(--spacing)) calc(6 * var(--spacing)) 0
+			calc(6 * var(--spacing));
 		border-radius: 12px;
 		border: 1px solid #e0e0e0;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 	}
+	article main {
+		display: flex;
+		gap: calc(6 * var(--spacing));
+		align-items: stretch;
+	}
 	article img {
-		float: right;
-		margin: 0 0 calc(6 * var(--spacing)) calc(6 * var(--spacing));
 		max-height: 400px;
 		width: auto;
 		border-radius: 12px;
 		border: 1px solid black;
 	}
-	article p {
-		padding-top: calc(2 * var(--spacing));
+	footer {
+		background-color: var(--primary);
+		margin: calc(6 * var(--spacing)) calc(-6 * var(--spacing)) 0;
+		padding: calc(3 * var(--spacing)) calc(6 * var(--spacing));
+		border-radius: 0 0 12px 12px;
+	}
+	footer p {
+		padding-top: 0;
 	}
 </style>
 
 <header id='hero-header'>
 	<Container>
 		<article>
-			<div>
+			<main>
 				<Image
-					alt='Black and white photograph of Deb Ritterbush'
-					src={`${IMG_CDN_URL}IMG_20220912_210338.jpg`}
+					alt={data.image.alt}
+					src={`${IMG_CDN_URL}${data.image.filename}`}
 					inferSize={true}
 				/>
-				<h1>Remembering Deb Ritterbush</h1>
-				<h2>January 2, 1953 &mdash; September 12, 2022</h2>
-				<p>
-					Hastings, Nebraska, resident Debra Lea “Deb” Ritterbush, aged 69,
-					passed away peacefully Monday, September 12, 2022, at Edgewood
-					Healthcare in Hastings.
-				</p>
-				<p>She was surrounded by family at the time of her death.</p>
-				<p>
-					Memorials may be given to <DonateLinks />.
-				</p>
-				<p>
-					Deb was born January 2, 1953, in Kearney, NE, to John and Dorothy
-					(Kroeger) Slote. She graduated from Hastings High School in 1971.
-					Fifty years ago, Deb married her beloved husband, Craig Ritterbush, on
-					September 15, 1972, in Hastings.
-				</p>
-				<p>
-					Deb was a caregiver for the entirety of her life. She lovingly raised
-					her two sons and cared for her mother and mother-in-law at the end of
-					their lives.
-				</p>
-				<p>
-					Deb cherished her relationships with her sisters, friends and nieces,
-					with whom she loved to shop, bowl, and travel. Her sons and
-					grandchildren were the light of her life.
-				</p>
-				<p>
-					She worked as a receptionist for various medical offices and Walgreens
-					Pharmacy in Hastings. She was a member of Faith Lutheran Church.
-				</p>
-				<p>
-					Deb was preceded in death by her parents; father-in-law and
-					mother-in-law, Vernon and Jean Ritterbush; brother-in-law, Tom
-					Anderson; and grandson, Jonah Ritterbush.
-				</p>
-				<p>
-					The Ritterbush family would like to extend their sincere gratitude to
-					the staff at Edgewood Memory Care for their invaluable support and
-					care for Deb in the final year of her life.
-				</p>
-				<p>
-					Survivors include her husband, Craig Ritterbush of Hastings, NE; sons
-					and partners, John Ritterbush and Cassie Tompkins of Chicago, IL, Mark
-					and Dana Ritterbush of Omaha, NE; grandchildren, Ronan Ritterbush,
-					Norah Ritterbush; sisters, RoJean Anderson of Fairfield, IA, Deanna
-					Schardt of Hastings, NE.
-				</p>
-			</div>
+				<div>
+					<h1>{data.title}</h1>
+					<h2>{data.dates.birth}&ndash;{data.dates.death}</h2>
+					<ReadMoreBlock>
+						<div slot='summary'>
+							<Fragment set:html={marked.parse(summary.trim())} />
+						</div>
+						<Fragment set:html={marked.parse(expandedContent.trim())} />
+					</ReadMoreBlock>
+				</div>
+			</main>
+			<footer>
+				<p>🧸 Memorials may be given to <DonateLinks />.</p>
+			</footer>
 		</article>
 	</Container>
+
+	<script is:inline define:vars={{ fullBackground }}>
+		const header = document.getElementById('hero-header');
+		const img = new Image();
+
+		// Set the source to start the download
+		img.src = fullSrc;
+
+		// When the high-res image is ready...
+		img.onload = () => {
+			header.classList.add('is-loaded');
+		};
+	</script>
 </header>
-
-<script define:vars={{ fullBackground }}>
-	const header = document.getElementById('hero-header');
-	const img = new Image();
-
-	// Set the source to start the download
-	img.src = fullSrc;
-
-	// When the high-res image is ready...
-	img.onload = () => {
-		header.classList.add('is-loaded');
-	};
-</script>
