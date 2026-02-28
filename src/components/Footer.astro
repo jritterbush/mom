@@ -1,6 +1,7 @@
 ---
 import Container from './Container.astro';
 import { site } from '../data/site.ts';
+import DonateLinks from './DonateLinks.astro';
 const { donateLinks } = site;
 ---
 
@@ -28,23 +29,19 @@ const { donateLinks } = site;
 	p {
 		font-size: 50px;
 	}
+	ul {
+		padding: 0;
+	}
 </style>
 
 <Container>
 	<footer>
-		{/* update the following to use <DonateLinks format='list' /> */}
 		{
 			donateLinks.length > 0 && (
 				<div>
 					<h2>Donate to</h2>
 					<ul>
-						{donateLinks.map(({ href, text }) => (
-							<li>
-								<a href={href} target='_blank' rel='noopener noreferrer'>
-									{text}
-								</a>
-							</li>
-						))}
+						<DonateLinks format='list' />
 					</ul>
 				</div>
 			)

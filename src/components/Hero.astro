@@ -13,11 +13,6 @@ interface Props {
 	lowResBackground?: string;
 }
 
-const { fullBackground, lowResBackground } = Astro.props;
-
-const backgroundUrl = `url(${fullBackground})`;
-const placeholderUrl = lowResBackground ? `url(${lowResBackground})` : '';
-
 const { title, dates, image } = markdownContent.frontmatter;
 const content = await markdownContent.compiledContent();
 
@@ -57,17 +52,14 @@ const [summary, expandedContent] = content?.split(SPLIT_ON);
 				</div>
 			</main>
 			<footer>
+				{/* TODO: <28-02-26, john> - make this a sticky banner? */}
 				<p>🧸 Memorials may be given to <DonateLinks />.</p>
 			</footer>
 		</article>
 	</Container>
 </header>
-<style define:vars={{ backgroundUrl, placeholderUrl }}>
+<style>
 	header {
-		background-image: var(--backgroundUrl), var(--placeholderUrl);
-		background-color: var(--secondary);
-		background-size: cover;
-		background-position: center;
 		padding: calc(16 * var(--spacing)) 0;
 	}
 	article {
@@ -99,15 +91,3 @@ const [summary, expandedContent] = content?.split(SPLIT_ON);
 		padding-top: 0;
 	}
 </style>
-<script is:inline define:vars={{ fullBackground }}>
-	const header = document.getElementById('hero-header');
-	const img = new Image();
-
-	// Set the source to start the download
-	img.src = fullSrc;
-
-	// When the high-res image is ready...
-	img.onload = () => {
-		header.classList.add('is-loaded');
-	};
-</script>

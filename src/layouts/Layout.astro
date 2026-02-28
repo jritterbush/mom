@@ -13,7 +13,27 @@ const { backgroundImage } = Astro.props;
 	<head>
 		<HTMLHead backgroundImage={backgroundImage} />
 	</head>
-	<body>
+	<body style={`--bg-image: url(${backgroundImage})`}>
 		<slot />
 	</body>
 </html>
+<style>
+	body {
+		/* The linear-gradient creates the fade-to-color effect */
+		background-image:
+			linear-gradient(
+				to bottom,
+				rgba(255, 255, 255, 0) 0%,
+				/* Transparent at top */ var(--secondary, #f4f4f4) 80%
+					/* Fades into background color */
+			),
+			var(--bg-image);
+
+		background-attachment: fixed; /* Keeps image from scrolling/shifting */
+		background-size: cover;
+		background-position: center top;
+		background-repeat: no-repeat;
+		min-height: 100vh;
+		margin: 0;
+	}
+</style>
