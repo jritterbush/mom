@@ -14,7 +14,7 @@ She was surrounded by family at the time of her death.
 
 Deb was born January 2, 1953, in Kearney, NE, to John and Dorothy (Kroeger) Slote. She graduated from Hastings High School in 1971. Fifty years ago, Deb married her beloved husband, Craig Ritterbush, on September 15, 1972, in Hastings.
 
----
+<!--expand-->
 
 Deb was a caregiver for the entirety of her life. She lovingly raised her two sons and cared for her mother and mother-in-law at the end of their lives.
 

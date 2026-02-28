@@ -1,12 +1,12 @@
 ---
-import matter from 'gray-matter';
-import { marked } from 'marked';
-import markdownContentRaw from '../content/obituary.md?raw';
+import * as markdownContent from '../content/obituary.md';
 import { Image } from 'astro:assets';
 import Container from './Container.astro';
 import DonateLinks from './DonateLinks.astro';
 import { IMG_CDN_URL } from '../constants/images.js';
 import ReadMoreBlock from './ReadMoreBlock.astro';
+
+const SPLIT_ON = '<!--expand-->';
 
 interface Props {
 	fullBackground: string;
@@ -18,10 +18,50 @@ const { fullBackground, lowResBackground } = Astro.props;
 const backgroundUrl = `url(${fullBackground})`;
 const placeholderUrl = lowResBackground ? `url(${lowResBackground})` : '';
 
-const { data, content } = matter(markdownContentRaw);
-const [summary, expandedContent] = content.split('---');
+const { title, dates, image } = markdownContent.frontmatter;
+const content = await markdownContent.compiledContent();
+
+if (!title || !dates || !image || !content) {
+	throw new Error(
+		'Missing required data in markdownContent. Requires title, dates, image, and content.'
+	);
+}
+
+if (content.indexOf(SPLIT_ON) < 0) {
+	throw new Error(
+		`Add comment of '${SPLIT_ON}' between the content you want to use as summary and expandedContent.`
+	);
+}
+
+const [summary, expandedContent] = content?.split(SPLIT_ON);
 ---
 
+<header id='hero-header'>
+	<Container>
+		<article>
+			<main>
+				<Image
+					alt={image.alt}
+					src={`${IMG_CDN_URL}${image.filename}`}
+					inferSize={true}
+				/>
+				<div>
+					<h1>{title}</h1>
+					<h2>{dates.birth}&ndash;{dates.death}</h2>
+					<ReadMoreBlock>
+						<div slot='summary'>
+							<Fragment set:html={summary || ''} />
+						</div>
+						<Fragment set:html={expandedContent || ''} />
+					</ReadMoreBlock>
+				</div>
+			</main>
+			<footer>
+				<p>🧸 Memorials may be given to <DonateLinks />.</p>
+			</footer>
+		</article>
+	</Container>
+</header>
 <style define:vars={{ backgroundUrl, placeholderUrl }}>
 	header {
 		background-image: var(--backgroundUrl), var(--placeholderUrl);
@@ -59,43 +99,15 @@ const [summary, expandedContent] = content.split('---');
 		padding-top: 0;
 	}
 </style>
+<script is:inline define:vars={{ fullBackground }}>
+	const header = document.getElementById('hero-header');
+	const img = new Image();
 
-<header id='hero-header'>
-	<Container>
-		<article>
-			<main>
-				<Image
-					alt={data.image.alt}
-					src={`${IMG_CDN_URL}${data.image.filename}`}
-					inferSize={true}
-				/>
-				<div>
-					<h1>{data.title}</h1>
-					<h2>{data.dates.birth}&ndash;{data.dates.death}</h2>
-					<ReadMoreBlock>
-						<div slot='summary'>
-							<Fragment set:html={marked.parse(summary.trim())} />
-						</div>
-						<Fragment set:html={marked.parse(expandedContent.trim())} />
-					</ReadMoreBlock>
-				</div>
-			</main>
-			<footer>
-				<p>🧸 Memorials may be given to <DonateLinks />.</p>
-			</footer>
-		</article>
-	</Container>
+	// Set the source to start the download
+	img.src = fullSrc;
 
-	<script is:inline define:vars={{ fullBackground }}>
-		const header = document.getElementById('hero-header');
-		const img = new Image();
-
-		// Set the source to start the download
-		img.src = fullSrc;
-
-		// When the high-res image is ready...
-		img.onload = () => {
-			header.classList.add('is-loaded');
-		};
-	</script>
-</header>
+	// When the high-res image is ready...
+	img.onload = () => {
+		header.classList.add('is-loaded');
+	};
+</script>
