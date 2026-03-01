@@ -6,28 +6,18 @@ import Layout from '../layouts/Layout.astro';
 import { IMG_CDN_URL } from '../constants/images.js';
 import PhotoGrid from '../components/PhotoGrid.astro';
 
-import photos from '../content/image-list.json';
+import photos from '../data/photos.json';
 
 const fullBackgroundImage = await getImage({
 	src: `${IMG_CDN_URL}clouds.jpg`,
 	inferSize: true,
 	format: 'webp',
 });
-const lowResBackgroundImage = await getImage({
-	src: `${IMG_CDN_URL}clouds.jpg`,
-	width: 300,
-	height: 200,
-	quality: 10, // Low quality
-	format: 'webp',
-});
 ---
 
 <Layout backgroundImage={fullBackgroundImage.src}>
 	<main id='content'>
-		<Hero
-			fullBackground={fullBackgroundImage.src}
-			lowResBackground={lowResBackgroundImage.src}
-		/>
+		<Hero />
 		<PhotoGrid photos={photos} />
 		<Footer />
 	</main>

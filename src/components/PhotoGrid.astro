@@ -1,6 +1,9 @@
 ---
 import PhotoThumb, { type Photo } from './PhotoThumb.astro';
 import Container from './Container.astro';
+import { Masonry } from 'astro-masonry';
+import { IMG_CDN_URL } from '../constants/images';
+import Modal from './Modal.astro';
 
 interface Props {
 	photos: Photo[];
@@ -24,41 +27,104 @@ const { photos } = Astro.props;
 		list-style: none;
 	}
 
-	ul > li {
-		display: block;
-		height: calc(var(--size) - var(--gap));
-	}
-
-	ul > li img {
+	/* Reset button styles for the thumbnails */
+	.img-trigger {
+		background: none;
+		border: none;
+		padding: var(--spacing);
+		cursor: pointer;
 		display: block;
 		width: 100%;
-		height: 100%;
-		object-fit: cover;
+	}
+
+	.img-trigger:hover {
+		outline: 1px solid black;
+	}
+
+	.full-res-image {
+		display: block;
+		max-width: 100%;
+		max-height: 80vh;
+		height: auto;
+		object-fit: contain;
 	}
 </style>
 
 <section>
 	<Container>
-		<ul>
+		<Masonry
+			breakpointCols={{
+				default: 4,
+				1100: 3,
+				700: 2,
+				500: 1,
+			}}
+		>
 			{
-				photos.map((photo) => (
-					<button data-image={photo.filename}>
-						<PhotoThumb photo={photo} />
-					</button>
-				))
+				photos.map((photo) => {
+					const thumbSrc = `${IMG_CDN_URL}thumbs/${photo.filename}`;
+					return (
+						<button
+							class='img-trigger'
+							data-image={photo.filename}
+							aria-haspopup='dialog'
+						>
+							<PhotoThumb
+								photo={{
+									src: thumbSrc,
+									...photo,
+								}}
+							/>
+						</button>
+					);
+				})
 			}
-		</ul>
+		</Masonry>
 	</Container>
 </section>
 
-<script>
-	const imageButtons = document.querySelectorAll('button[data-image]');
-	if (imageButtons) {
-		imageButtons.forEach((imageButton) => {
-			imageButton.addEventListener('click', (event) => {
-				const imageName = event.currentTarget.dataset.image;
-				console.log(imageName);
+<Modal id='lightbox'>
+	<img id='lightbox-img' src='' alt='' class='full-res-image' />
+</Modal>
+
+<script is:inline define:vars={{ imgCdnUrl: IMG_CDN_URL }}>
+	const modal = document.getElementById('lightbox');
+	const closeBtn = document.getElementById('close-lightbox');
+	const lightboxImg = document.getElementById('lightbox-img');
+	const imageButtons = document.querySelectorAll('.img-trigger');
+
+	let lastFocusedElement;
+
+	if (modal && imageButtons) {
+		imageButtons.forEach((btn) => {
+			btn.addEventListener('click', (event) => {
+				// 1. Save reference for focus return
+				lastFocusedElement = event.currentTarget;
+
+				// 2. Get the fullsize URL
+				const imageName = lastFocusedElement.dataset.image;
+				const fullSizeUrl = `${imgCdnUrl}fullsize/${imageName}`;
+
+				// 3. Update the modal image
+				lightboxImg.src = fullSizeUrl;
+				lightboxImg.alt =
+					lastFocusedElement.querySelector('img')?.alt || 'Memorial photo';
+
+				// 4. Show the modal
+				modal.showModal();
 			});
+		});
+
+		// Close logic
+		closeBtn.addEventListener('click', () => modal.close());
+
+		// A11y: Return focus when modal closes
+		modal.addEventListener('close', () => {
+			if (lastFocusedElement) {
+				lastFocusedElement.focus();
+			}
+			// Clear src to stop loading/bandwidth when closed
+			lightboxImg.src = '';
 		});
 	}
 </script>

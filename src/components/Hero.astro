@@ -8,11 +8,6 @@ import ReadMoreBlock from './ReadMoreBlock.astro';
 
 const SPLIT_ON = '<!--expand-->';
 
-interface Props {
-	fullBackground: string;
-	lowResBackground?: string;
-}
-
 const { title, dates, image } = markdownContent.frontmatter;
 const content = await markdownContent.compiledContent();
 

@@ -2,3 +2,4 @@
 _archive
 node_modules
 dist
+src/data/photos.json
