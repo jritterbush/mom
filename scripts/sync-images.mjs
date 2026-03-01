@@ -10,7 +10,7 @@ const s3 = new S3Client({ region: 'us-east-2' });
 const BUCKET = 'mom-memorial-site';
 const LOCAL_PATH = './src/data/photos.json';
 
-async function generatePhotoData() {
+async function generatePhotoData(options = {}) {
 	// 1. Load existing data if it exists
 	let localData = [];
 	if (fs.existsSync(LOCAL_PATH)) {
@@ -35,7 +35,7 @@ async function generatePhotoData() {
 			);
 		});
 
-	if (!needsUpdate) {
+	if (!needsUpdate && !options.forceSync) {
 		console.log('Everything is up to date. Skipping sync.');
 		return;
 	}
@@ -70,4 +70,5 @@ async function generatePhotoData() {
 	console.log('Photo manifest generated!');
 }
 
-generatePhotoData();
+// generatePhotoData({ forceSync: true });
+generatePhotoData({ forceSync: false });

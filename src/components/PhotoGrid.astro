@@ -13,20 +13,6 @@ const { photos } = Astro.props;
 ---
 
 <style>
-	ul {
-		--numcolumns: 4;
-		--gap: 0.25em;
-		--size: calc(100vw / var(--numcolumns));
-		display: grid;
-		grid-template-columns: repeat(var(--numcolumns), 1fr);
-
-		grid-template-rows: auto;
-		gap: var(--gap);
-		align-items: stretch;
-
-		list-style: none;
-	}
-
 	/* Reset button styles for the thumbnails */
 	.img-trigger {
 		background: none;
