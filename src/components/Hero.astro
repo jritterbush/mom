@@ -2,7 +2,7 @@
 import * as markdownContent from '../content/obituary.md';
 import { Image } from 'astro:assets';
 import Container from './Container.astro';
-import DonateLinks from './DonateLinks.astro';
+import MemorialBannerContent from './MemorialBannerContent.astro';
 import { IMG_CDN_URL } from '../constants/images.js';
 import ReadMoreBlock from './ReadMoreBlock.astro';
 
@@ -46,10 +46,7 @@ const [summary, expandedContent] = content?.split(SPLIT_ON);
 					</ReadMoreBlock>
 				</div>
 			</main>
-			<footer>
-				{/* TODO: <28-02-26, john> - make this a sticky banner? */}
-				<p>🧸 Memorials may be given to <DonateLinks />.</p>
-			</footer>
+			<footer><MemorialBannerContent /></footer>
 		</article>
 	</Container>
 </header>
@@ -65,16 +62,22 @@ const [summary, expandedContent] = content?.split(SPLIT_ON);
 		border: 1px solid #e0e0e0;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 	}
+	/* Mobile-first: Stack vertically */
 	article main {
 		display: flex;
-		gap: calc(6 * var(--spacing));
-		align-items: stretch;
+		flex-direction: column;
+		gap: calc(4 * var(--spacing));
 	}
+	/* Responsive Image Handling */
 	article img {
-		max-height: 400px;
-		width: auto;
+		width: 100%;
+		max-width: 400px; /* Optional: bounds max width on mobile */
+		height: auto;
+		max-height: 500px;
+		object-fit: cover; /* Prevents aspect-ratio stretching */
 		border-radius: 12px;
 		border: 1px solid black;
+		align-self: center; /* Centers image on mobile viewports */
 	}
 	footer {
 		background-color: var(--primary);
@@ -84,5 +87,19 @@ const [summary, expandedContent] = content?.split(SPLIT_ON);
 	}
 	footer p {
 		padding-top: 0;
+	}
+	/* Desktop screens: Display side-by-side */
+	@media (min-width: 768px) {
+		article main {
+			flex-direction: row;
+			align-items: flex-start;
+			gap: calc(6 * var(--spacing));
+		}
+
+		article img {
+			width: auto; /* Reverts to automatic sizing based on max-height */
+			max-width: none;
+			align-self: flex-start;
+		}
 	}
 </style>
