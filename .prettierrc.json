@@ -1,0 +1,28 @@
+{
+	"printWidth": 80,
+	"singleQuote": true,
+	"jsxSingleQuote": true,
+	"useTabs": true,
+	"trailingComma": "es5",
+	"overrides": [
+		{
+			"files": "*.css",
+			"options": {
+				"singleQuote": false
+			}
+		},
+		{
+			"files": "*.astro",
+			"options": {
+				"parser": "astro"
+			}
+		},
+		{
+			"files": "*.jsonc",
+			"options": {
+				"trailingComma": "none"
+			}
+		}
+	],
+	"plugins": ["prettier-plugin-astro"]
+}

@@ -1,0 +1,82 @@
+---
+// Modal.astro
+interface Props {
+	id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<dialog id={id}>
+	<div class='modal-container'>
+		<button id={`close-${id}`} class='close-button' aria-label='close image'>
+			<span aria-hidden='true'>&times;</span>
+		</button>
+
+		<div id={`${id}-content`} class='modal-content'>
+			<slot />
+		</div>
+	</div>
+</dialog>
+
+<style>
+	/* The Backdrop (the dark overlay) */
+	dialog::backdrop {
+		background-color: rgba(0, 0, 0, 0.85);
+		backdrop-filter: blur(4px);
+	}
+
+	/* Dialog reset and centering */
+	dialog {
+		border: none;
+		background: transparent;
+		padding: 0;
+		max-width: 90vw;
+		max-height: 90vh;
+		overflow: visible;
+	}
+
+	/* Standard flex centering for the open state */
+	dialog[open] {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.modal-container {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.modal-content {
+		background-color: #1a1a1a; /* Dark theme background */
+		border-radius: 8px;
+		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+		overflow: hidden;
+		display: flex;
+	}
+
+	/* Close Button Styling */
+	.close-button {
+		position: absolute;
+		top: -45px;
+		right: 0;
+		background: none;
+		border: none;
+		color: white;
+		font-size: 2.5rem;
+		cursor: pointer;
+		line-height: 1;
+		padding: 5px;
+		transition: color 0.2s ease;
+	}
+
+	.close-button:hover,
+	.close-button:focus {
+		color: #ccc;
+		outline: 2px solid white;
+		outline-offset: 2px;
+	}
+</style>

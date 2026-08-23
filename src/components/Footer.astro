@@ -1,0 +1,51 @@
+---
+import Container from './Container.astro';
+import { site } from '../data/site.ts';
+import DonateLinks from './DonateLinks.astro';
+const { donateLinks } = site;
+---
+
+<style>
+	footer {
+		padding: calc(12 * var(--spacing)) 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	ul {
+		display: flex;
+		list-style-type: none;
+		margin: 0;
+		gap: calc(4 * var(--spacing));
+	}
+	a {
+		color: var(--font-color);
+		font-size: 1.1rem;
+		font-weight: 800;
+	}
+	h2 {
+		font-size: 1.2rem;
+	}
+	p {
+		font-size: 50px;
+	}
+	ul {
+		padding: 0;
+	}
+</style>
+
+<Container>
+	<footer>
+		{
+			donateLinks.length > 0 && (
+				<div>
+					<h2>Donate to</h2>
+					<ul>
+						<DonateLinks format='list' />
+					</ul>
+				</div>
+			)
+		}
+		<p>🧸</p>
+	</footer>
+</Container>

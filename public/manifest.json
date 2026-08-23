@@ -1,25 +1,25 @@
 {
-  "short_name": "Deb Ritterbush",
-  "name": "Deb Ritterbush Memorial",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "android-chrome-192x192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "android-chrome-512x512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#a7aac3",
-  "background_color": "#ffc0cb"
+	"short_name": "Deb Ritterbush",
+	"name": "Deb Ritterbush Memorial",
+	"icons": [
+		{
+			"src": "favicon.ico",
+			"sizes": "64x64 32x32 24x24 16x16",
+			"type": "image/x-icon"
+		},
+		{
+			"src": "android-chrome-192x192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		},
+		{
+			"src": "android-chrome-512x512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		}
+	],
+	"start_url": ".",
+	"display": "standalone",
+	"theme_color": "#a7aac3",
+	"background_color": "#ffc0cb"
 }

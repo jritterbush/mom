@@ -1,0 +1,82 @@
+---
+interface Props {
+	expanded?: boolean;
+}
+const { expanded = false } = Astro.props;
+---
+
+<div class='read-more-wrapper' aria-expanded={expanded}>
+	<slot name='summary' />
+	<button
+		><span class='more'>Read more</span><span class='less'>Read less</span
+		></button
+	>
+	<div class='expandable-block'>
+		<div class='expandable-block-inner'>
+			<slot />
+		</div>
+	</div>
+</div>
+
+<script>
+	const wrapper = document.querySelector('.read-more-wrapper');
+	if (wrapper) {
+		let wrapperAriaExpandedString = wrapper.getAttribute('aria-expanded');
+		const expanderButton = wrapper.querySelector('button');
+		if (expanderButton) {
+			expanderButton.addEventListener('click', () => {
+				wrapperAriaExpandedString =
+					wrapperAriaExpandedString === 'false' ? 'true' : 'false';
+				wrapper.setAttribute('aria-expanded', wrapperAriaExpandedString);
+			});
+		}
+	}
+</script>
+
+<style>
+	.read-more-wrapper {
+		display: grid;
+	}
+	.expandable-block {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 0.5s ease-in-out;
+		overflow: hidden;
+	}
+	.summary {
+		margin-bottom: calc(6 * var(--spacing));
+	}
+	.expandable-block-inner {
+		min-height: 0;
+	}
+	[aria-expanded='false'] button > .less {
+		display: none;
+	}
+	[aria-expanded='true'] button > .more {
+		display: none;
+	}
+	[aria-expanded='true'] .expandable-block {
+		grid-template-rows: 1fr;
+	}
+	[aria-expanded='true'] .summary {
+		margin-bottom: 0;
+	}
+	/**
+	 * TODO:  <28-02-26, john>
+	 * an idea for the button to explore
+	 * what if the button is the overlay too (or a shadow of it is
+	 * then you click it, the overlay goes away and you are left with
+	 * a normal button to collapse it and restore the shadow
+	 */
+	button {
+		color: var(--link-color);
+		font-weight: bold;
+		border-color: transparent;
+		justify-self: self-end;
+		background-color: transparent;
+	}
+	button:hover {
+		cursor: pointer;
+		text-decoration: underline;
+	}
+</style>

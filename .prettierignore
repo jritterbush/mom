@@ -1,0 +1,5 @@
+# Ignore artifacts:
+_archive
+node_modules
+dist
+src/data/photos.json

@@ -1,0 +1,105 @@
+---
+import * as markdownContent from '../content/obituary.md';
+import { Image } from 'astro:assets';
+import Container from './Container.astro';
+import MemorialBannerContent from './MemorialBannerContent.astro';
+import { IMG_CDN_URL } from '../constants/images.js';
+import ReadMoreBlock from './ReadMoreBlock.astro';
+
+const SPLIT_ON = '<!--expand-->';
+
+const { title, dates, image } = markdownContent.frontmatter;
+const content = await markdownContent.compiledContent();
+
+if (!title || !dates || !image || !content) {
+	throw new Error(
+		'Missing required data in markdownContent. Requires title, dates, image, and content.'
+	);
+}
+
+if (content.indexOf(SPLIT_ON) < 0) {
+	throw new Error(
+		`Add comment of '${SPLIT_ON}' between the content you want to use as summary and expandedContent.`
+	);
+}
+
+const [summary, expandedContent] = content?.split(SPLIT_ON);
+---
+
+<header id='hero-header'>
+	<Container>
+		<article>
+			<main>
+				<Image
+					alt={image.alt}
+					src={`${IMG_CDN_URL}${image.filename}`}
+					inferSize={true}
+				/>
+				<div>
+					<h1>{title}</h1>
+					<h2>{dates.birth}&ndash;{dates.death}</h2>
+					<ReadMoreBlock>
+						<div slot='summary'>
+							<Fragment set:html={summary || ''} />
+						</div>
+						<Fragment set:html={expandedContent || ''} />
+					</ReadMoreBlock>
+				</div>
+			</main>
+			<footer><MemorialBannerContent /></footer>
+		</article>
+	</Container>
+</header>
+<style>
+	header {
+		padding: calc(16 * var(--spacing)) 0;
+	}
+	article {
+		background-color: rgba(255, 255, 255, 0.75);
+		padding: calc(6 * var(--spacing)) calc(6 * var(--spacing)) 0
+			calc(6 * var(--spacing));
+		border-radius: 12px;
+		border: 1px solid #e0e0e0;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+	}
+	/* Mobile-first: Stack vertically */
+	article main {
+		display: flex;
+		flex-direction: column;
+		gap: calc(4 * var(--spacing));
+	}
+	/* Responsive Image Handling */
+	article img {
+		width: 100%;
+		max-width: 400px; /* Optional: bounds max width on mobile */
+		height: auto;
+		max-height: 500px;
+		object-fit: cover; /* Prevents aspect-ratio stretching */
+		border-radius: 12px;
+		border: 1px solid black;
+		align-self: center; /* Centers image on mobile viewports */
+	}
+	footer {
+		background-color: var(--primary);
+		margin: calc(6 * var(--spacing)) calc(-6 * var(--spacing)) 0;
+		padding: calc(3 * var(--spacing)) calc(6 * var(--spacing));
+		border-radius: 0 0 12px 12px;
+	}
+	footer p {
+		padding-top: 0;
+	}
+	/* Desktop screens: Display side-by-side */
+	@media (min-width: 768px) {
+		article main {
+			flex-direction: row;
+			align-items: flex-start;
+			gap: calc(6 * var(--spacing));
+		}
+
+		article img {
+			width: auto; /* Reverts to automatic sizing based on max-height */
+			max-width: none;
+			align-self: flex-start;
+		}
+	}
+</style>

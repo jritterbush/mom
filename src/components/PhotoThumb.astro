@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+
+export interface Photo {
+	filename: string;
+	width: number;
+	height: number;
+	aspectRatio: number;
+}
+
+interface PhotoThumb extends Photo {
+	src: string;
+}
+
+interface Props {
+	photo: PhotoThumb;
+}
+
+const { photo } = Astro.props;
+
+// Set a "target" width for the grid display
+// This should roughly match the width of your S3 thumbnails
+const THUMB_DISPLAY_WIDTH = 500;
+const thumbHeight = Math.round(THUMB_DISPLAY_WIDTH / photo.aspectRatio);
+
+if (!photo?.src) {
+	throw new Error(`there was a problem rendering an image ${photo.filename}`);
+}
+---
+
+<Image
+	src={photo.src}
+	width={THUMB_DISPLAY_WIDTH}
+	height={thumbHeight}
+	style={{
+		width: '100%',
+		height: 'auto',
+		aspectRatio: `${photo.aspectRatio}`,
+	}}
+	alt=''
+	loading='lazy'
+/>

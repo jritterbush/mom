@@ -1,0 +1,26 @@
+---
+import { getImage } from 'astro:assets';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Layout from '../layouts/Layout.astro';
+import { IMG_CDN_URL } from '../constants/images.js';
+import PhotoGrid from '../components/PhotoGrid.astro';
+
+import photos from '../data/photos.json';
+import MemorialBanner from '../components/MemorialBanner.astro';
+
+const fullBackgroundImage = await getImage({
+	src: `${IMG_CDN_URL}clouds.jpg`,
+	inferSize: true,
+	format: 'webp',
+});
+---
+
+<Layout backgroundImage={fullBackgroundImage.src}>
+	<main id='content'>
+		<MemorialBanner />
+		<Hero />
+		<PhotoGrid photos={photos} />
+		<Footer />
+	</main>
+</Layout>

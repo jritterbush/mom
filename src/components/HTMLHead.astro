@@ -1,0 +1,26 @@
+---
+import { site } from '../data/site';
+interface Props {
+	backgroundImage?: string;
+}
+const { backgroundImage } = Astro.props;
+---
+
+<meta charset='utf-8' />
+<link rel='icon' href='/favicon.ico' />
+<meta name='viewport' content='width=device-width, initial-scale=1' />
+
+{
+	backgroundImage && (
+		<link
+			rel='preload'
+			as='image'
+			href={backgroundImage}
+			fetchpriority='high'
+		/>
+	)
+}
+
+<meta name='theme-color' content='#a7aac3' />
+<meta name='description' content={site.description} />
+<title>{site.title}</title>

@@ -1,0 +1,80 @@
+---
+import MemorialBannerContent from './MemorialBannerContent.astro';
+---
+
+<aside
+	class='memorial-banner-sticky'
+	id='sticky-memorial-banner'
+	aria-hidden='true'
+>
+	<div class='banner-inner'>
+		<MemorialBannerContent />
+	</div>
+</aside>
+
+<script>
+	const stickyBanner = document.getElementById('sticky-memorial-banner');
+
+	// Target the inline footer inside Hero.astro
+	const heroFooter = document.querySelector('header#hero-header footer');
+
+	if (stickyBanner && heroFooter) {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					// When hero footer is NOT intersecting (scrolled past), show sticky banner
+					if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+						stickyBanner.classList.add('visible');
+						stickyBanner.setAttribute('aria-hidden', 'false');
+					} else {
+						stickyBanner.classList.remove('visible');
+						stickyBanner.setAttribute('aria-hidden', 'true');
+					}
+				});
+			},
+			{
+				threshold: 0,
+			}
+		);
+
+		observer.observe(heroFooter);
+	}
+</script>
+
+<style>
+	.memorial-banner-sticky {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1000;
+		background-color: var(--primary);
+		padding: calc(2 * var(--spacing));
+		text-align: center;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+
+		/* Smooth fade and subtle slide down transition */
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(-100%);
+		transition:
+			opacity 0.3s ease-in-out,
+			transform 0.3s ease-in-out,
+			visibility 0.3s;
+		pointer-events: none;
+	}
+
+	.memorial-banner-sticky.visible {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+
+	/* Keep responsive display logic */
+	@media (max-width: 767px) {
+		.memorial-banner-sticky {
+			display: none;
+		}
+	}
+</style>
