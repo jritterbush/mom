@@ -19,6 +19,6 @@ npm run dev
 
 Visit [http://localhost:4321](http://localhost:4321) to see the result.
 
-## Deploy - IN PROGRESS
+## Deploy
 
-I'm migrating this site to Cloudflare via Github. First I need to get Astro building though so Cloudflare can discover it.
+The site is hosted in Cloudflare Workers and Pages. It is deployed by opening a PR against the main branch, then on successful merge a deploy to production will happen.
